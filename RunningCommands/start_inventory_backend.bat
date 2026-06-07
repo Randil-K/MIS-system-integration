@@ -1,8 +1,13 @@
 @echo off
-title SCM System - Starting Inventory Backend (:8081)
+title SCM System - How to run Inventory Backend
 echo ==================================================
-echo Starting Inventory Backend on port 8081...
+echo Inventory Backend Running Instructions
 echo ==================================================
-cd ..\InventoryModuleNew\backend
-call ..\LogesticAndShipmentModule\backend\.maven\apache-maven-3.9.6\bin\mvn.cmd spring-boot:run
+echo 1. Right click your "InventoryModuleNew/backend" folder in your editor or explorer and click "Copy Path".
+echo 2. Go to your terminal, type "cd " and paste the path inside quotes, then press Enter:
+echo    cd "C:\path\to\InventoryModuleNew\backend"
+echo 3. Start the backend by running:
+echo    ..\LogesticAndShipmentModule\backend\.maven\apache-maven-3.9.6\bin\mvn.cmd spring-boot:run
+echo ==================================================
 pause
+

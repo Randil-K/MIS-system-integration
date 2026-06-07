@@ -1,8 +1,12 @@
 @echo off
-title SCM System - Starting Order & Billing Backend (:8082)
+title SCM System - How to run Order & Billing Backend
 echo ==================================================
-echo Starting Order & Billing Backend on port 8082...
+echo Order ^& Billing Backend Running Instructions
 echo ==================================================
-cd ..\OrderAndBillingModule\backend
-call ..\LogesticAndShipmentModule\backend\.maven\apache-maven-3.9.6\bin\mvn.cmd spring-boot:run
+echo 1. Right click your "OrderAndBillingModule/backend" folder in your editor or explorer and click "Copy Path".
+echo 2. Go to your terminal, type "cd " and paste the path inside quotes, then press Enter:
+echo    cd "C:\path\to\OrderAndBillingModule\backend"
+echo 3. Start the backend by running:
+echo    ..\LogesticAndShipmentModule\backend\.maven\apache-maven-3.9.6\bin\mvn.cmd spring-boot:run
+echo ==================================================
 pause
