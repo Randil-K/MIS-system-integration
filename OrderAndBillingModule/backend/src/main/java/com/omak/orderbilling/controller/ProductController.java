@@ -16,7 +16,6 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin(origins = "*")
 public class ProductController {
 
     @Autowired
