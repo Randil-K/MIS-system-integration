@@ -12,7 +12,7 @@ if ($mysqlCheck.TcpTestSucceeded -ne $true) {
     Write-Host "MySQL is not running. Attempting to start XAMPP MySQL..." -ForegroundColor Yellow
     if (Test-Path "C:\xampp\mysql\bin\mysqld.exe") {
         Start-Process -FilePath "C:\xampp\mysql\bin\mysqld.exe" -ArgumentList "--defaults-file=C:\xampp\mysql\bin\my.ini" -WindowStyle Hidden
-        Start-Sleep -Seconds 3
+        Start-Sleep -Seconds 8
         Write-Host "XAMPP MySQL started successfully!" -ForegroundColor Green
     } else {
         Write-Host "Warning: C:\xampp\mysql\bin\mysqld.exe not found. Please ensure MySQL is running on port 3306." -ForegroundColor Red
@@ -25,16 +25,16 @@ Write-Host ""
 Write-Host "Starting Backends in separate windows..." -ForegroundColor Cyan
 
 # 1. User Management Backend (Port 8085)
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'UserManagmentModule/backend'; Write-Host 'Starting User Management Backend (:8085)...' -ForegroundColor Green; .\mvnw.cmd spring-boot:run" -WindowStyle Normal
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'UserManagmentModule/backend'; Write-Host 'Starting User Management Backend (:8085)...' -ForegroundColor Green; .\mvnw.cmd clean spring-boot:run" -WindowStyle Normal
 
 # 2. Inventory Backend (Port 8081)
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'InventoryModuleNew/backend'; Write-Host 'Starting Inventory Backend (:8081)...' -ForegroundColor Green; & 'c:/Users/randi/OneDrive/Desktop/MIS system int/LogesticAndShipmentModule/backend/.maven/apache-maven-3.9.6/bin/mvn.cmd' spring-boot:run" -WindowStyle Normal
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'InventoryModuleNew/backend'; Write-Host 'Starting Inventory Backend (:8081)...' -ForegroundColor Green; & 'c:/Users/randi/OneDrive/Desktop/MIS system int/LogesticAndShipmentModule/backend/.maven/apache-maven-3.9.6/bin/mvn.cmd' clean spring-boot:run" -WindowStyle Normal
 
 # 3. Order & Billing Backend (Port 8082)
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'OrderAndBillingModule/backend'; Write-Host 'Starting Order & Billing Backend (:8082)...' -ForegroundColor Green; & 'c:/Users/randi/OneDrive/Desktop/MIS system int/LogesticAndShipmentModule/backend/.maven/apache-maven-3.9.6/bin/mvn.cmd' spring-boot:run" -WindowStyle Normal
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'OrderAndBillingModule/backend'; Write-Host 'Starting Order & Billing Backend (:8082)...' -ForegroundColor Green; & 'c:/Users/randi/OneDrive/Desktop/MIS system int/LogesticAndShipmentModule/backend/.maven/apache-maven-3.9.6/bin/mvn.cmd' clean spring-boot:run" -WindowStyle Normal
 
 # 4. Logistics Backend (Port 8080)
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'LogesticAndShipmentModule/backend'; Write-Host 'Starting Logistics Backend (:8080)...' -ForegroundColor Green; & 'c:/Users/randi/OneDrive/Desktop/MIS system int/LogesticAndShipmentModule/backend/.maven/apache-maven-3.9.6/bin/mvn.cmd' spring-boot:run" -WindowStyle Normal
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'LogesticAndShipmentModule/backend'; Write-Host 'Starting Logistics Backend (:8080)...' -ForegroundColor Green; & 'c:/Users/randi/OneDrive/Desktop/MIS system int/LogesticAndShipmentModule/backend/.maven/apache-maven-3.9.6/bin/mvn.cmd' clean spring-boot:run" -WindowStyle Normal
 
 Write-Host ""
 Write-Host "Starting Frontends in separate windows..." -ForegroundColor Cyan
