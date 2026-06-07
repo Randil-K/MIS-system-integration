@@ -1,0 +1,118 @@
+.navbar {
+  /* Override global variables for Navbar so it stays dark */
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --bg-panel: #0a0b10;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+
+  width: 100%;
+  background: var(--bg-panel);
+  border-bottom: var(--glass-border);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.logo-icon {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  padding: 0.4rem;
+  border-radius: var(--radius-sm);
+  color: white;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: rgba(14, 165, 233, 0.15);
+  color: #00f0ff;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.navbar .btn-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* User Section */
+.navbar-user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+.navbar-user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.navbar-user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.navbar-user-role {
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+

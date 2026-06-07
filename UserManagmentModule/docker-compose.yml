@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: user-management-backend
+    ports:
+      - "8085:8085"
+
+  frontend:
+    build: ./frontend
+    container_name: user-management-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend

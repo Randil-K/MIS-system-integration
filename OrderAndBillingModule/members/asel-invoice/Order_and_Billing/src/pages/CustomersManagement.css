@@ -1,0 +1,16 @@
+.search-icon {
+  color: var(--text-secondary);
+}
+
+.col-customer-id {
+  font-weight: 500;
+  color: var(--accent-cyan);
+}
+
+.col-name {
+  font-weight: 600;
+}
+
+.col-email, .col-phone {
+  color: var(--text-secondary);
+}

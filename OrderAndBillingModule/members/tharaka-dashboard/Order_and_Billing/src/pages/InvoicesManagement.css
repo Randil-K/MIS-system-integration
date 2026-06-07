@@ -1,0 +1,16 @@
+.search-icon {
+  color: var(--text-secondary);
+}
+
+.col-invoice-id {
+  font-weight: 500;
+  color: var(--accent-cyan);
+}
+
+.col-date {
+  color: var(--text-secondary);
+}
+
+.col-amount {
+  font-weight: 600;
+}

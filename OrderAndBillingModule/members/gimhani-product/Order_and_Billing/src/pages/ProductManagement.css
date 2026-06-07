@@ -1,0 +1,11 @@
+.search-icon {
+  color: var(--text-secondary);
+}
+
+.col-category {
+  color: var(--text-secondary);
+}
+
+.col-price {
+  font-weight: 600;
+}
