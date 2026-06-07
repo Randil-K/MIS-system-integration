@@ -76,14 +76,29 @@ public class DbSeeder implements CommandLineRunner {
     private void seedShipmentsAndEvents() {
         if (shipmentRepository.count() == 0) {
             // Seed Shipment 1
-            Shipment s1 = new Shipment(
-                "SH-2026-1847", "TRK847291JK9274", "Wireless Keyboards (50 units)", "New York, NY",
-                "In Transit", "2 days", 65, 50, "45.5 kg", "120 x 80 x 60 cm",
-                "FastTrack Logistics", "Express Delivery", "San Francisco, CA 94102", "2026-05-05 17:00",
-                "TechParts Warehouse", "+1 (415) 555-0123", "shipping@techparts.com",
-                "Elite Electronics Store", "+1 (212) 555-0198", "receiving@eliteelectronics.com",
-                "145 West 34th Street, New York, NY 10001", "May"
-            );
+            Shipment s1 = new Shipment();
+            s1.setId("SH-2026-1847");
+            s1.setTrackingNumber("TRK847291JK9274");
+            s1.setProduct("Wireless Keyboards (50 units)");
+            s1.setDestination("New York, NY");
+            s1.setStatus("In Transit");
+            s1.setEta("2 days");
+            s1.setProgress(65);
+            s1.setQuantity(50);
+            s1.setWeight("45.5 kg");
+            s1.setDimensions("120 x 80 x 60 cm");
+            s1.setCarrier("FastTrack Logistics");
+            s1.setService("Express Delivery");
+            s1.setOrigin("San Francisco, CA 94102");
+            s1.setEstimatedDelivery("2026-05-05 17:00");
+            s1.setSenderName("TechParts Warehouse");
+            s1.setSenderPhone("+1 (415) 555-0123");
+            s1.setSenderEmail("shipping@techparts.com");
+            s1.setRecipientName("Elite Electronics Store");
+            s1.setRecipientPhone("+1 (212) 555-0198");
+            s1.setRecipientEmail("receiving@eliteelectronics.com");
+            s1.setRecipientAddress("145 West 34th Street, New York, NY 10001");
+            s1.setCreatedMonth("May");
             shipmentRepository.save(s1);
 
             trackingEventRepository.saveAll(List.of(
@@ -96,14 +111,29 @@ public class DbSeeder implements CommandLineRunner {
             ));
 
             // Seed Shipment 2
-            Shipment s2 = new Shipment(
-                "SH-2026-1846", "TRK298711AA1123", "USB-C Hubs (100 units)", "Los Angeles, CA",
-                "On Time", "1 day", 85, 100, "15.0 kg", "50 x 40 x 30 cm",
-                "FastTrack Logistics", "Standard Delivery", "San Francisco, CA 94102", "2026-05-04 12:00",
-                "TechParts Warehouse", "+1 (415) 555-0123", "shipping@techparts.com",
-                "Angeles Tech Supply", "+1 (310) 555-0982", "receiving@lattech.com",
-                "892 Sunset Blvd, Los Angeles, CA 90028", "May"
-            );
+            Shipment s2 = new Shipment();
+            s2.setId("SH-2026-1846");
+            s2.setTrackingNumber("TRK298711AA1123");
+            s2.setProduct("USB-C Hubs (100 units)");
+            s2.setDestination("Los Angeles, CA");
+            s2.setStatus("On Time");
+            s2.setEta("1 day");
+            s2.setProgress(85);
+            s2.setQuantity(100);
+            s2.setWeight("15.0 kg");
+            s2.setDimensions("50 x 40 x 30 cm");
+            s2.setCarrier("FastTrack Logistics");
+            s2.setService("Standard Delivery");
+            s2.setOrigin("San Francisco, CA 94102");
+            s2.setEstimatedDelivery("2026-05-04 12:00");
+            s2.setSenderName("TechParts Warehouse");
+            s2.setSenderPhone("+1 (415) 555-0123");
+            s2.setSenderEmail("shipping@techparts.com");
+            s2.setRecipientName("Angeles Tech Supply");
+            s2.setRecipientPhone("+1 (310) 555-0982");
+            s2.setRecipientEmail("receiving@lattech.com");
+            s2.setRecipientAddress("892 Sunset Blvd, Los Angeles, CA 90028");
+            s2.setCreatedMonth("May");
             shipmentRepository.save(s2);
 
             trackingEventRepository.saveAll(List.of(
@@ -113,14 +143,29 @@ public class DbSeeder implements CommandLineRunner {
             ));
 
             // Seed Shipment 3
-            Shipment s3 = new Shipment(
-                "SH-2026-1845", "TRK992817BB2234", "Gaming Mice (75 units)", "Chicago, IL",
-                "Delayed", "4 days", 40, 75, "22.3 kg", "80 x 60 x 50 cm",
-                "Global Cargo", "Express Delivery", "San Francisco, CA 94102", "2026-05-08 15:00",
-                "TechParts Warehouse", "+1 (415) 555-0123", "shipping@techparts.com",
-                "Windy City Electronics", "+1 (312) 555-0412", "shipping@windycityelec.com",
-                "455 N Michigan Ave, Chicago, IL 60611", "May"
-            );
+            Shipment s3 = new Shipment();
+            s3.setId("SH-2026-1845");
+            s3.setTrackingNumber("TRK992817BB2234");
+            s3.setProduct("Gaming Mice (75 units)");
+            s3.setDestination("Chicago, IL");
+            s3.setStatus("Delayed");
+            s3.setEta("4 days");
+            s3.setProgress(40);
+            s3.setQuantity(75);
+            s3.setWeight("22.3 kg");
+            s3.setDimensions("80 x 60 x 50 cm");
+            s3.setCarrier("Global Cargo");
+            s3.setService("Express Delivery");
+            s3.setOrigin("San Francisco, CA 94102");
+            s3.setEstimatedDelivery("2026-05-08 15:00");
+            s3.setSenderName("TechParts Warehouse");
+            s3.setSenderPhone("+1 (415) 555-0123");
+            s3.setSenderEmail("shipping@techparts.com");
+            s3.setRecipientName("Windy City Electronics");
+            s3.setRecipientPhone("+1 (312) 555-0412");
+            s3.setRecipientEmail("shipping@windycityelec.com");
+            s3.setRecipientAddress("455 N Michigan Ave, Chicago, IL 60611");
+            s3.setCreatedMonth("May");
             shipmentRepository.save(s3);
 
             trackingEventRepository.saveAll(List.of(
@@ -130,14 +175,29 @@ public class DbSeeder implements CommandLineRunner {
             ));
 
             // Seed Shipment 4
-            Shipment s4 = new Shipment(
-                "SH-2026-1844", "TRK482910CC3345", "Monitor Stands (30 units)", "Houston, TX",
-                "Delivered", "Today", 100, 30, "65.0 kg", "150 x 100 x 80 cm",
-                "FastTrack Logistics", "Priority Freight", "Dallas Warehouse Facility", "2026-05-01 10:00",
-                "TechParts Warehouse", "+1 (415) 555-0123", "shipping@techparts.com",
-                "Lone Star Retailers", "+1 (713) 555-0726", "receiving@lonestar.com",
-                "1200 Travis St, Houston, TX 77002", "May"
-            );
+            Shipment s4 = new Shipment();
+            s4.setId("SH-2026-1844");
+            s4.setTrackingNumber("TRK482910CC3345");
+            s4.setProduct("Monitor Stands (30 units)");
+            s4.setDestination("Houston, TX");
+            s4.setStatus("Delivered");
+            s4.setEta("Today");
+            s4.setProgress(100);
+            s4.setQuantity(30);
+            s4.setWeight("65.0 kg");
+            s4.setDimensions("150 x 100 x 80 cm");
+            s4.setCarrier("FastTrack Logistics");
+            s4.setService("Priority Freight");
+            s4.setOrigin("Dallas Warehouse Facility");
+            s4.setEstimatedDelivery("2026-05-01 10:00");
+            s4.setSenderName("TechParts Warehouse");
+            s4.setSenderPhone("+1 (415) 555-0123");
+            s4.setSenderEmail("shipping@techparts.com");
+            s4.setRecipientName("Lone Star Retailers");
+            s4.setRecipientPhone("+1 (713) 555-0726");
+            s4.setRecipientEmail("receiving@lonestar.com");
+            s4.setRecipientAddress("1200 Travis St, Houston, TX 77002");
+            s4.setCreatedMonth("May");
             shipmentRepository.save(s4);
 
             trackingEventRepository.saveAll(List.of(
@@ -147,14 +207,29 @@ public class DbSeeder implements CommandLineRunner {
             ));
 
             // Seed Shipment 5
-            Shipment s5 = new Shipment(
-                "SH-2026-1843", "TRK884910DD4456", "Laptop Cooling Pads (60 units)", "Phoenix, AZ",
-                "In Transit", "3 days", 55, 60, "18.0 kg", "60 x 50 x 40 cm",
-                "AirLink Shipping", "Standard Delivery", "San Francisco, CA 94102", "2026-05-06 14:00",
-                "TechParts Warehouse", "+1 (415) 555-0123", "shipping@techparts.com",
-                "Desert Tech Solutions", "+1 (602) 555-0831", "receiving@deserttech.com",
-                "200 E Van Buren St, Phoenix, AZ 85004", "May"
-            );
+            Shipment s5 = new Shipment();
+            s5.setId("SH-2026-1843");
+            s5.setTrackingNumber("TRK884910DD4456");
+            s5.setProduct("Laptop Cooling Pads (60 units)");
+            s5.setDestination("Phoenix, AZ");
+            s5.setStatus("In Transit");
+            s5.setEta("3 days");
+            s5.setProgress(55);
+            s5.setQuantity(60);
+            s5.setWeight("18.0 kg");
+            s5.setDimensions("60 x 50 x 40 cm");
+            s5.setCarrier("AirLink Shipping");
+            s5.setService("Standard Delivery");
+            s5.setOrigin("San Francisco, CA 94102");
+            s5.setEstimatedDelivery("2026-05-06 14:00");
+            s5.setSenderName("TechParts Warehouse");
+            s5.setSenderPhone("+1 (415) 555-0123");
+            s5.setSenderEmail("shipping@techparts.com");
+            s5.setRecipientName("Desert Tech Solutions");
+            s5.setRecipientPhone("+1 (602) 555-0831");
+            s5.setRecipientEmail("receiving@deserttech.com");
+            s5.setRecipientAddress("200 E Van Buren St, Phoenix, AZ 85004");
+            s5.setCreatedMonth("May");
             shipmentRepository.save(s5);
 
             trackingEventRepository.saveAll(List.of(

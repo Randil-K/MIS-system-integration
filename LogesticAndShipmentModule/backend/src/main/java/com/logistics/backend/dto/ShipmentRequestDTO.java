@@ -46,4 +46,30 @@ public class ShipmentRequestDTO {
         this.courierName = courierName;
         this.expectedDeliveryDate = expectedDeliveryDate;
     }
+
+    // Explicit getters (fallback for Lombok processing issues)
+    public Long getOrderId() { return orderId; }
+    public Long getCustomerId() { return customerId; }
+    public String getDeliveryAddress() { return deliveryAddress; }
+    public String getCourierName() { return courierName; }
+    public LocalDateTime getExpectedDeliveryDate() { return expectedDeliveryDate; }
+    public String getProduct() { return product; }
+    public Integer getQuantity() { return quantity; }
+    public String getDestination() { return destination; }
+    public String getRecipientName() { return recipientName; }
+    public String getRecipientEmail() { return recipientEmail; }
+    public String getRecipientPhone() { return recipientPhone; }
+    public String getRecipientAddress() { return recipientAddress; }
+    public String getStatus() { return status; }
+    public Integer getProgress() { return progress; }
+    public String getEta() { return eta; }
+    public String getCarrier() { return carrier; }
+    public String getService() { return service; }
+    public String getOrigin() { return origin; }
+    public String getEstimatedDelivery() { return estimatedDelivery; }
+    public String getWeight() { return weight; }
+    public String getDimensions() { return dimensions; }
+    public String getSenderName() { return senderName; }
+    public String getSenderPhone() { return senderPhone; }
+    public String getSenderEmail() { return senderEmail; }
 }

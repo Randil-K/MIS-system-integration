@@ -42,40 +42,40 @@ public class ShipmentServiceImpl implements ShipmentService {
                 ? request.getExpectedDeliveryDate() 
                 : shipmentDate.plusDays(3);
 
-        Shipment shipment = Shipment.builder()
-                .orderId(request.getOrderId() != null ? request.getOrderId() : 0L)
-                .customerId(request.getCustomerId() != null ? request.getCustomerId() : 0L)
-                .deliveryAddress(request.getDeliveryAddress() != null ? request.getDeliveryAddress() : (request.getRecipientAddress() != null ? request.getRecipientAddress() : request.getDestination()))
-                .courierName(request.getCourierName() != null ? request.getCourierName() : (request.getCarrier() != null ? request.getCarrier() : "FastTrack Logistics"))
-                .trackingNumber("TEMP") // Temporary placeholder before primary key generation
-                .shipmentDate(shipmentDate)
-                .expectedDeliveryDate(expectedDelivery)
-                // Legacy fields (for dashboard fallback compatibility)
-                .product(request.getProduct() != null ? request.getProduct() : "Product Cargo")
-                .destination(request.getDestination() != null ? request.getDestination() : (request.getDeliveryAddress() != null ? request.getDeliveryAddress() : request.getRecipientAddress()))
-                .carrier(request.getCarrier() != null ? request.getCarrier() : (request.getCourierName() != null ? request.getCourierName() : "FastTrack Logistics"))
-                .service(request.getService() != null ? request.getService() : "Express Freight")
-                .origin(request.getOrigin() != null ? request.getOrigin() : "SCM Sorting Facility")
-                .estimatedDelivery(request.getEstimatedDelivery() != null ? request.getEstimatedDelivery() : (request.getEta() != null ? request.getEta() : "3 Days"))
-                .quantity(request.getQuantity() != null ? request.getQuantity() : 1)
-                .weight(request.getWeight() != null ? request.getWeight() : "15 kg")
-                .dimensions(request.getDimensions() != null ? request.getDimensions() : "50x40x30 cm")
-                .progress(request.getProgress() != null ? request.getProgress() : 10)
-                .eta(request.getEta() != null ? request.getEta() : "3 Days")
-                
-                // Sender details
-                .senderName(request.getSenderName() != null ? request.getSenderName() : "SCM Logistics Depot")
-                .senderPhone(request.getSenderPhone() != null ? request.getSenderPhone() : "+1 (800) 555-0199")
-                .senderEmail(request.getSenderEmail() != null ? request.getSenderEmail() : "depot@scmlogistics.com")
-                
-                // Recipient details
-                .recipientName(request.getRecipientName() != null ? request.getRecipientName() : "SCM Recipient")
-                .recipientPhone(request.getRecipientPhone() != null ? request.getRecipientPhone() : "")
-                .recipientEmail(request.getRecipientEmail() != null ? request.getRecipientEmail() : "")
-                .recipientAddress(request.getRecipientAddress() != null ? request.getRecipientAddress() : (request.getDeliveryAddress() != null ? request.getDeliveryAddress() : request.getDestination()))
-                
-                .createdMonth("May")
-                .build();
+        Shipment shipment = new Shipment();
+        shipment.setOrderId(request.getOrderId() != null ? request.getOrderId() : 0L);
+        shipment.setCustomerId(request.getCustomerId() != null ? request.getCustomerId() : 0L);
+        shipment.setDeliveryAddress(request.getDeliveryAddress() != null ? request.getDeliveryAddress() : (request.getRecipientAddress() != null ? request.getRecipientAddress() : request.getDestination()));
+        shipment.setCourierName(request.getCourierName() != null ? request.getCourierName() : (request.getCarrier() != null ? request.getCarrier() : "FastTrack Logistics"));
+        shipment.setTrackingNumber("TEMP"); // Temporary placeholder before primary key generation
+        shipment.setShipmentDate(shipmentDate);
+        shipment.setExpectedDeliveryDate(expectedDelivery);
+        
+        // Legacy fields (for dashboard fallback compatibility)
+        shipment.setProduct(request.getProduct() != null ? request.getProduct() : "Product Cargo");
+        shipment.setDestination(request.getDestination() != null ? request.getDestination() : (request.getDeliveryAddress() != null ? request.getDeliveryAddress() : request.getRecipientAddress()));
+        shipment.setCarrier(request.getCarrier() != null ? request.getCarrier() : (request.getCourierName() != null ? request.getCourierName() : "FastTrack Logistics"));
+        shipment.setService(request.getService() != null ? request.getService() : "Express Freight");
+        shipment.setOrigin(request.getOrigin() != null ? request.getOrigin() : "SCM Sorting Facility");
+        shipment.setEstimatedDelivery(request.getEstimatedDelivery() != null ? request.getEstimatedDelivery() : (request.getEta() != null ? request.getEta() : "3 Days"));
+        shipment.setQuantity(request.getQuantity() != null ? request.getQuantity() : 1);
+        shipment.setWeight(request.getWeight() != null ? request.getWeight() : "15 kg");
+        shipment.setDimensions(request.getDimensions() != null ? request.getDimensions() : "50x40x30 cm");
+        shipment.setProgress(request.getProgress() != null ? request.getProgress() : 10);
+        shipment.setEta(request.getEta() != null ? request.getEta() : "3 Days");
+        
+        // Sender details
+        shipment.setSenderName(request.getSenderName() != null ? request.getSenderName() : "SCM Logistics Depot");
+        shipment.setSenderPhone(request.getSenderPhone() != null ? request.getSenderPhone() : "+1 (800) 555-0199");
+        shipment.setSenderEmail(request.getSenderEmail() != null ? request.getSenderEmail() : "depot@scmlogistics.com");
+        
+        // Recipient details
+        shipment.setRecipientName(request.getRecipientName() != null ? request.getRecipientName() : "SCM Recipient");
+        shipment.setRecipientPhone(request.getRecipientPhone() != null ? request.getRecipientPhone() : "");
+        shipment.setRecipientEmail(request.getRecipientEmail() != null ? request.getRecipientEmail() : "");
+        shipment.setRecipientAddress(request.getRecipientAddress() != null ? request.getRecipientAddress() : (request.getDeliveryAddress() != null ? request.getDeliveryAddress() : request.getDestination()));
+        
+        shipment.setCreatedMonth("May");
 
         // Parse status to enum
         String statusStr = request.getStatus();
@@ -236,13 +236,13 @@ public class ShipmentServiceImpl implements ShipmentService {
         long delivered = shipments.stream().filter(s -> s.getShipmentStatus() == ShipmentStatus.DELIVERED).count();
         long cancelled = shipments.stream().filter(s -> s.getShipmentStatus() == ShipmentStatus.CANCELLED).count();
 
-        return ShipmentStatisticsDTO.builder()
-                .totalShipments(total)
-                .pendingShipments(pending)
-                .inTransitShipments(inTransit)
-                .deliveredShipments(delivered)
-                .cancelledShipments(cancelled)
-                .build();
+        ShipmentStatisticsDTO stats = new ShipmentStatisticsDTO();
+        stats.setTotalShipments(total);
+        stats.setPendingShipments(pending);
+        stats.setInTransitShipments(inTransit);
+        stats.setDeliveredShipments(delivered);
+        stats.setCancelledShipments(cancelled);
+        return stats;
     }
 
     @Override
@@ -273,20 +273,20 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     private ShipmentResponseDTO mapToResponseDTO(Shipment shipment) {
-        return ShipmentResponseDTO.builder()
-                .shipmentId(shipment.getShipmentId())
-                .legacyId(shipment.getId())
-                .id(shipment.getId())
-                .orderId(shipment.getOrderId())
-                .customerId(shipment.getCustomerId())
-                .deliveryAddress(shipment.getDeliveryAddress())
-                .trackingNumber(shipment.getTrackingNumber())
-                .courierName(shipment.getCourierName())
-                .shipmentDate(shipment.getShipmentDate())
-                .expectedDeliveryDate(shipment.getExpectedDeliveryDate())
-                .shipmentStatus(shipment.getShipmentStatus())
-                .progress(shipment.getProgress())
-                .eta(shipment.getEta())
-                .build();
+        ShipmentResponseDTO response = new ShipmentResponseDTO();
+        response.setShipmentId(shipment.getShipmentId());
+        response.setLegacyId(shipment.getId());
+        response.setId(shipment.getId());
+        response.setOrderId(shipment.getOrderId());
+        response.setCustomerId(shipment.getCustomerId());
+        response.setDeliveryAddress(shipment.getDeliveryAddress());
+        response.setTrackingNumber(shipment.getTrackingNumber());
+        response.setCourierName(shipment.getCourierName());
+        response.setShipmentDate(shipment.getShipmentDate());
+        response.setExpectedDeliveryDate(shipment.getExpectedDeliveryDate());
+        response.setShipmentStatus(shipment.getShipmentStatus());
+        response.setProgress(shipment.getProgress());
+        response.setEta(shipment.getEta());
+        return response;
     }
 }

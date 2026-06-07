@@ -12,4 +12,7 @@ public class ShipmentStatusUpdateDTO {
 
     @NotBlank(message = "Status string is required")
     private String status;
+
+    // Explicit getter (fallback for Lombok processing issues)
+    public String getStatus() { return status; }
 }
