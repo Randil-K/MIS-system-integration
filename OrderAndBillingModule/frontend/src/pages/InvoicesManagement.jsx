@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Search, Filter, FileText, Trash2 } from 'lucide-react';
 import api from '../api';
 import GenerateInvoiceModal from '../components/GenerateInvoiceModal';
+import { exportInvoiceToTXT } from '../utils/exportUtils';
 import './InvoicesManagement.css';
 
 export default function InvoicesManagement() {
@@ -92,7 +93,9 @@ export default function InvoicesManagement() {
                   </td>
                   <td>
                     <div className="flex gap-2">
-                      <button className="btn-icon"><FileText size={16} /></button>
+                      <button className="btn-icon" onClick={() => exportInvoiceToTXT(invoice)}>
+                        <FileText size={16} />
+                      </button>
                       <button className="btn-icon text-danger" onClick={() => handleDelete(invoice.id)}>
                         <Trash2 size={16} />
                       </button>
