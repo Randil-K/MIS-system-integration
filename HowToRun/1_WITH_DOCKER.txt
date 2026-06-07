@@ -1,0 +1,159 @@
+================================================================
+   HOW TO RUN WITH DOCKER
+   Logistics & Shipment Management Module
+================================================================
+
+WHAT IS DOCKER?
+--------------------------------------------------------------
+Docker packages the entire app (frontend + backend + database)
+into containers. You don't need to install Java, Maven, Node.js,
+or MySQL separately. Docker handles everything automatically.
+
+--------------------------------------------------------------
+BEFORE YOU START - CHECK THESE:
+--------------------------------------------------------------
+
+  [ ] Docker Desktop is installed on your PC
+      Download from: https://www.docker.com/products/docker-desktop/
+
+  [ ] Docker Desktop is RUNNING
+      Look for the whale icon in the taskbar (bottom-right).
+      It should be GREEN. If it's grey or spinning, wait for it.
+
+  [ ] You are in the correct folder (LogesticAndShipmentModule)
+
+--------------------------------------------------------------
+STEP 1 - OPEN POWERSHELL
+--------------------------------------------------------------
+
+  Right-click on Start menu -> "Windows PowerShell"
+  OR
+  Press  Windows Key + R  -> type "powershell" -> press Enter
+
+
+--------------------------------------------------------------
+STEP 2 - GO TO THE MODULE FOLDER
+--------------------------------------------------------------
+
+  Copy and paste this command:
+
+  cd "C:\Users\randi\OneDrive\Desktop\MIS system int\LogesticAndShipmentModule"
+
+  Press Enter.
+
+
+--------------------------------------------------------------
+STEP 3A - FIRST TIME ONLY (Build + Start)
+--------------------------------------------------------------
+
+  Run this command:
+
+  docker-compose up --build -d
+
+  NOTE: First time takes 5 to 15 minutes because Docker needs
+  to download base images and compile the Java backend.
+  Subsequent starts only take 10-20 seconds.
+
+  Wait until you see:
+    Container logistics-db       Running
+    Container logistics-backend  Running
+    Container logistics-frontend Running
+
+
+--------------------------------------------------------------
+STEP 3B - AFTER FIRST TIME (Just Start)
+--------------------------------------------------------------
+
+  Run this command (much faster):
+
+  docker-compose up -d
+
+
+--------------------------------------------------------------
+STEP 4 - VERIFY CONTAINERS ARE RUNNING
+--------------------------------------------------------------
+
+  Run:
+
+  docker-compose ps
+
+  You should see STATUS = "running" for all 3 containers:
+    logistics-db
+    logistics-backend
+    logistics-frontend
+
+
+--------------------------------------------------------------
+STEP 5 - OPEN THE APPLICATION
+--------------------------------------------------------------
+
+  Open your web browser and go to:
+
+  http://localhost:5173
+
+  You will see:
+    - Dashboard Overview tab (KPIs and charts)
+    - Shipment Tracking tab (search by shipment ID)
+    - Logistics Management tab (warehouses and fleet)
+
+
+--------------------------------------------------------------
+STEP 6 - STOP THE APPLICATION
+--------------------------------------------------------------
+
+  When you are done, run:
+
+  docker-compose down
+
+  This stops all containers. Your data is saved in Docker volumes.
+
+
+--------------------------------------------------------------
+STEP 7 - RESTART NEXT TIME
+--------------------------------------------------------------
+
+  Just run again:
+
+  docker-compose up -d
+
+
+--------------------------------------------------------------
+ALL DOCKER COMMANDS SUMMARY
+--------------------------------------------------------------
+
+  Start (first time, with build):
+    docker-compose up --build -d
+
+  Start (after first time):
+    docker-compose up -d
+
+  Check status:
+    docker-compose ps
+
+  View live logs:
+    docker-compose logs -f
+
+  View only backend logs:
+    docker-compose logs -f backend
+
+  Stop containers:
+    docker-compose down
+
+  Stop and delete all data (clean slate):
+    docker-compose down -v
+
+  Rebuild after code changes:
+    docker-compose up --build -d
+
+
+================================================================
+PORTS USED BY DOCKER
+================================================================
+
+  Service         Port      URL
+  --------------- --------- ---------------------------------
+  Frontend        5173      http://localhost:5173
+  Backend API     8080      http://localhost:8080
+  MySQL Database  3306      (internal, no browser needed)
+
+================================================================

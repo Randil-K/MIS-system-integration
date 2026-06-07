@@ -1,0 +1,141 @@
+================================================================
+   HOW TO RUN WITHOUT DOCKER (LOCAL METHOD)
+   Logistics & Shipment Management Module
+================================================================
+
+Use this method if you don't have Docker, or if you want to
+run and edit the code directly on your local machine.
+
+--------------------------------------------------------------
+BEFORE YOU START - INSTALL THESE:
+--------------------------------------------------------------
+
+  [ ] XAMPP installed (for MySQL database)
+      Download: https://www.apachefriends.org/
+
+  [ ] Java 21 or higher installed
+      Download: https://adoptium.net/
+
+  [ ] Node.js 20 or higher installed
+      Download: https://nodejs.org/
+
+--------------------------------------------------------------
+OVERVIEW - YOU NEED 3 THINGS RUNNING:
+--------------------------------------------------------------
+
+  1. MySQL Database  (via XAMPP)
+  2. Spring Boot Backend  (via Maven)
+  3. React Frontend  (via npm)
+
+  Each runs in its own terminal window.
+
+================================================================
+PART 1 - START THE DATABASE (MySQL)
+================================================================
+
+  1. Open XAMPP Control Panel
+     (Search "XAMPP" in Start Menu)
+
+  2. Click START next to "MySQL"
+
+  3. Wait for the green "Running" status
+
+  IMPORTANT:
+  - Start MySQL ONLY
+  - Do NOT start Apache (not needed)
+  - Do NOT start Tomcat (causes port conflict)
+
+  The database "logistics_db" is created automatically
+  when the backend first starts (no manual setup needed).
+
+
+================================================================
+PART 2 - START THE BACKEND (Spring Boot)
+================================================================
+
+  Open PowerShell Window #1
+
+  Step 1 - Go to the backend folder:
+
+    cd "C:\Users\randi\OneDrive\Desktop\MIS system int\LogesticAndShipmentModule\backend"
+
+  Step 2 - Start the backend:
+
+    .\.maven\apache-maven-3.9.6\bin\mvn.cmd clean spring-boot:run
+
+  Step 3 - Wait for this message:
+    "Started BackendApplication in X.XXX seconds"
+
+  The backend is now running at: http://localhost:8080
+
+  NOTE: First start takes 1-2 minutes to download dependencies.
+
+
+================================================================
+PART 3 - START THE FRONTEND (React)
+================================================================
+
+  Open a NEW PowerShell Window #2  (keep Window #1 open!)
+
+  Step 1 - Go to the frontend folder:
+
+    cd "C:\Users\randi\OneDrive\Desktop\MIS system int\LogesticAndShipmentModule\frontend"
+
+  Step 2 - Install dependencies (first time only):
+
+    npm install --legacy-peer-deps
+
+  Step 3 - Start the frontend:
+
+    npm run dev
+
+  Step 4 - Wait for this message:
+    "Local: http://localhost:5173/"
+
+  The frontend is now running!
+
+
+================================================================
+PART 4 - OPEN THE APPLICATION
+================================================================
+
+  Open your web browser and go to:
+
+  http://localhost:5173
+
+  You will see three tabs:
+    - Dashboard Overview
+    - Shipment Tracking
+    - Logistics Management
+
+
+================================================================
+HOW TO STOP
+================================================================
+
+  Stop Backend:
+    Go to PowerShell Window #1
+    Press Ctrl + C
+    Type Y and press Enter
+
+  Stop Frontend:
+    Go to PowerShell Window #2
+    Press Ctrl + C
+
+  Stop Database:
+    Open XAMPP Control Panel
+    Click STOP next to MySQL
+
+
+================================================================
+ALL MODULES PORT REFERENCE (Full System)
+================================================================
+
+  Module                  Backend Port  Frontend Port  Database
+  ----------------------  ------------  -------------  ------------------
+  Logistics & Shipment    8080          5173           logistics_db
+  Inventory               8081          5174 (approx)  inventory_db
+  Order & Billing         8082          5175 (approx)  order_and_Billing
+  User Management         8085          5176 (approx)  user_db
+
+================================================================

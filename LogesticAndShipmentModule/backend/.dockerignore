@@ -1,0 +1,6 @@
+target
+.maven
+*.log
+build_output.txt
+build.log
+.env

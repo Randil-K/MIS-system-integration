@@ -1,0 +1,93 @@
+================================================================
+   PORTS AND URLs QUICK REFERENCE
+   All Modules - SCM System
+================================================================
+
+================================================================
+LOGISTICS & SHIPMENT MODULE (Our Module)
+================================================================
+
+  Frontend App:     http://localhost:5173
+  Backend API:      http://localhost:8080
+  MySQL Database:   localhost:3306  (database: logistics_db)
+
+  API ENDPOINTS:
+  ----------------------------------------------------------
+  DASHBOARD:
+    GET  http://localhost:8080/api/dashboard/kpis
+    GET  http://localhost:8080/api/dashboard/shipment-volume
+    GET  http://localhost:8080/api/dashboard/delivery-status
+    GET  http://localhost:8080/api/dashboard/recent-shipments
+
+  SHIPMENTS:
+    GET    http://localhost:8080/api/shipments
+    POST   http://localhost:8080/api/shipments
+    GET    http://localhost:8080/api/shipments/{id}
+    PUT    http://localhost:8080/api/shipments/{id}
+    DELETE http://localhost:8080/api/shipments/{id}
+    PUT    http://localhost:8080/api/shipments/{id}/status
+    GET    http://localhost:8080/api/shipments/{id}/tracking
+    GET    http://localhost:8080/api/shipments/{id}/events
+    POST   http://localhost:8080/api/shipments/{id}/events
+    GET    http://localhost:8080/api/shipments/statistics
+    GET    http://localhost:8080/api/shipments/tracking/{trackingNumber}
+    GET    http://localhost:8080/api/shipments/order/{orderId}
+
+  LOGISTICS (Warehouses & Fleet):
+    GET    http://localhost:8080/api/logistics/kpis
+    GET    http://localhost:8080/api/logistics/warehouses
+    POST   http://localhost:8080/api/logistics/warehouses
+    PUT    http://localhost:8080/api/logistics/warehouses/{id}
+    DELETE http://localhost:8080/api/logistics/warehouses/{id}
+    GET    http://localhost:8080/api/logistics/vehicles
+    POST   http://localhost:8080/api/logistics/vehicles
+    PUT    http://localhost:8080/api/logistics/vehicles/{id}
+    DELETE http://localhost:8080/api/logistics/vehicles/{id}
+    GET    http://localhost:8080/api/logistics/fleet-utilization
+
+  SAMPLE TRACKING IDs TO TEST:
+    SH-2026-1847   (In Transit - Wireless Keyboards)
+    SH-2026-1846   (On Time - USB-C Hubs)
+    SH-2026-1845   (Delayed - Gaming Mice)
+    SH-2026-1844   (Delivered - Monitor Stands)
+    SH-2026-1843   (In Transit - Laptop Cooling Pads)
+
+
+================================================================
+OTHER MODULES (Full System)
+================================================================
+
+  USER MANAGEMENT MODULE:
+    Frontend:   http://localhost:5173  (separate module)
+    Backend:    http://localhost:8085
+    Database:   localhost:3306  (database: user_db)
+
+  INVENTORY MODULE:
+    Backend:    http://localhost:8081
+    Database:   localhost:3306  (database: inventory_db)
+
+  ORDER & BILLING MODULE:
+    Backend:    http://localhost:8082
+    Database:   localhost:3306  (database: order_and_Billing)
+
+
+================================================================
+DOCKER CONTAINER NAMES
+================================================================
+
+  logistics-db        --> MySQL database container
+  logistics-backend   --> Spring Boot backend container
+  logistics-frontend  --> React + Nginx frontend container
+
+
+================================================================
+USEFUL DOCKER COMMANDS
+================================================================
+
+  See running containers:    docker ps
+  See all containers:        docker ps -a
+  See container logs:        docker logs logistics-backend
+  Enter container shell:     docker exec -it logistics-db bash
+  Check compose status:      docker-compose ps
+
+================================================================
