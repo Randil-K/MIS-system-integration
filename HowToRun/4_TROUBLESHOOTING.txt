@@ -1,0 +1,85 @@
+========================================================================
+             MIS SYSTEM INTEGRATION - TROUBLESHOOTING GUIDE
+========================================================================
+
+This guide helps resolve common errors when running the services locally 
+(either directly on your host machine or via Docker).
+
+------------------------------------------------------------------------
+1. DOCKER & CONTAINERS TROUBLESHOOTING
+------------------------------------------------------------------------
+Q: "Docker Desktop is unable to start" or "WSL 2 installation is incomplete"
+A: Docker on Windows requires the WSL 2 (Windows Subsystem for Linux) backend.
+   1. Open PowerShell as Administrator and run:
+      wsl --install
+   2. Restart your computer if prompted.
+   3. If WSL is installed but no distribution is set up, run:
+      wsl --install -d Ubuntu
+   4. Start Docker Desktop and wait for the indicator to turn green.
+
+Q: Port Collision: "Bind for 0.0.0.0:8080 failed: port is already allocated" 
+   or "port 3306 is already in use"
+A: This happens if you already have local instances of MySQL or Spring Boot running.
+   - If running locally: Stop any local MySQL service in Windows Services (services.msc) 
+     or kill any java processes using port 8080.
+   - If running via Docker: Stop any services running on ports 8080/3306/5173, or update 
+     the ports mapping in the 'docker-compose.yml' (e.g., map "8086:8080" for backend).
+
+Q: "target frontend: failed to solve: process ... did not complete successfully"
+A: During the docker build, if npm install fails, it is usually due to conflicting 
+   peer dependencies. The frontend Dockerfile has been configured to use:
+   "npm install --force"
+   to bypass peer dependency locks. Ensure you do not remove this flag in the Dockerfile.
+
+------------------------------------------------------------------------
+2. DATABASE & SPRING BOOT TROUBLESHOOTING
+------------------------------------------------------------------------
+Q: "Access denied for user 'root'@'localhost' (using password: NO/YES)"
+A: Your Spring Boot application is unable to connect to MySQL.
+   - For Local (Without Docker): Check 'application.properties'. The default password 
+     is set to empty (""). If your local MySQL has a root password (e.g., "admin" or "root"),
+     update the 'spring.datasource.password' property in the respective module's 
+     'application.properties' file or set the SPRING_DATASOURCE_PASSWORD environment variable.
+   - For Docker: Ensure the 'DB_PASSWORD' in your '.env' matches the 
+     'SPRING_DATASOURCE_PASSWORD' environment variable in 'docker-compose.yml'.
+
+Q: Table doesn't exist or database not found
+A: - Make sure the database exists in MySQL. The JDBC URL has '?createDatabaseIfNotExist=true' 
+     which should create it automatically.
+   - In 'application.properties', check that 'spring.jpa.hibernate.ddl-auto' is set to 
+     'update' so Hibernate automatically creates/updates the database tables on startup.
+
+------------------------------------------------------------------------
+3. CROSS-MODULE INTEGRATION & NETWORK TROUBLESHOOTING
+------------------------------------------------------------------------
+Q: "Warning: Failed to sync order status to order service: Connection refused"
+A: This warning occurs when the Logistics module tries to update an order's status 
+   in the Order & Billing module, but the Order backend is not running.
+   - Solution: Ensure the Order & Billing Module is running on port 8082. 
+   - Note: If running via Docker, make sure both modules are on the same Docker network 
+     if they use container names, or use 'localhost' when port forwarding is configured.
+   - For standalone local runs: Start the Order and Billing backend before updating 
+     shipment statuses in the Logistics module.
+
+Q: "Warning: Failed to auto-trigger shipment creation: Connection refused"
+A: This warning occurs in the Order & Billing module when creating a new order. 
+   The Order service tries to tell the Logistics service to automatically create a shipment, 
+   but Logistics (port 8080) is down.
+   - Solution: Start the Logistics & Shipment backend on port 8080.
+
+Q: CORS / Cross-Origin requests blocked in the browser
+A: The React/Vite frontends make requests to their backend APIs.
+   - In Spring Boot controllers, verify that the '@CrossOrigin(origins = "*")' annotation 
+     is present on top of the controllers.
+   - Verify that your frontend's environment variable (VITE_API_BASE_URL) is pointing 
+     to the correct backend port (e.g., http://localhost:8080/api for Logistics).
+
+------------------------------------------------------------------------
+4. NPM / FRONTEND TROUBLESHOOTING
+------------------------------------------------------------------------
+Q: Node.js / npm install fails with dependency errors locally
+A: Run npm with the force flag:
+   npm install --force
+   If you use pnpm, make sure you have pnpm installed and run "pnpm install".
+
+========================================================================
