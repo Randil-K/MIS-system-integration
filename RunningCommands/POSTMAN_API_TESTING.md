@@ -76,10 +76,14 @@ This guide contains all endpoints, methods, and example JSON payloads for testin
 * **Request Body (JSON)**:
 ```json
 {
-  "customerId": 1,
-  "orderDetails": [
+  "customer": {
+    "id": 1
+  },
+  "items": [
     {
-      "productId": 1,
+      "product": {
+        "id": 1
+      },
       "quantity": 2
     }
   ]

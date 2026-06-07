@@ -87,10 +87,14 @@ To demonstrate API integration, open **Postman** and run this exact workflow:
 * **Body (raw JSON)**:
   ```json
   {
-    "customerId": 1,
-    "orderDetails": [
+    "customer": {
+      "id": 1
+    },
+    "items": [
       {
-        "productId": 1,
+        "product": {
+          "id": 1
+        },
         "quantity": 10
       }
     ]
