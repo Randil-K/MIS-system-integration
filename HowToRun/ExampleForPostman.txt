@@ -1,0 +1,83 @@
+========================================================================
+                      POSTMAN API EXAMPLES & TESTING
+========================================================================
+
+Use the requests below to test the Logistics & Shipment module APIs 
+manually in Postman by selecting the HTTP method, pasting the URL, and
+setting the Body type to "raw" (JSON) for POST and PUT requests.
+
+------------------------------------------------------------------------
+1. GET All Shipments
+------------------------------------------------------------------------
+Method: GET
+URL: http://localhost:8080/api/shipments
+Response: Returns a list of all active shipments in the database.
+
+------------------------------------------------------------------------
+2. GET a Single Shipment by ID
+------------------------------------------------------------------------
+Method: GET
+URL: http://localhost:8080/api/shipments/1
+Response: Returns details of the shipment with ID 1.
+
+------------------------------------------------------------------------
+3. POST Create a New Shipment (Ad-hoc / Manual Delivery)
+------------------------------------------------------------------------
+Use this payload if you want to create a manual shipment that is not 
+linked to a specific customer order.
+
+Method: POST
+URL: http://localhost:8080/api/shipments
+Body (raw JSON):
+{
+  "product": "Industrial Solar Inverter",
+  "quantity": 5,
+  "recipientName": "John Doe",
+  "recipientEmail": "john@example.com",
+  "recipientPhone": "+15550199",
+  "recipientAddress": "742 Evergreen Terrace, Springfield",
+  "destination": "Springfield Hub",
+  "carrier": "FedEx",
+  "service": "Priority Overnight",
+  "origin": "Dallas Facility",
+  "status": "PENDING",
+  "progress": 10,
+  "eta": "16:00",
+  "expectedDeliveryDate": "2026-06-10T12:00:00"
+}
+
+------------------------------------------------------------------------
+4. POST Create a New Shipment (Order Integrated)
+------------------------------------------------------------------------
+Use this payload to create a shipment linked directly to a customer 
+order (this is the call the Order service makes automatically).
+
+Method: POST
+URL: http://localhost:8080/api/shipments
+Body (raw JSON):
+{
+  "orderId": 1,
+  "customerId": 1,
+  "deliveryAddress": "123 Main St, New York, NY",
+  "courierName": "DHL Express",
+  "expectedDeliveryDate": "2026-06-12T17:00:00"
+}
+
+------------------------------------------------------------------------
+5. PUT Update Shipment Status (With Auto-Sync to Orders)
+------------------------------------------------------------------------
+You can change a shipment's status (e.g., mark it as DELIVERED). 
+Doing so will automatically make a REST call behind the scenes to update 
+the corresponding order status in the Order module to COMPLETED.
+
+Method: PUT
+URL: http://localhost:8080/api/shipments/1/status
+Body (raw JSON):
+{
+  "status": "DELIVERED"
+}
+
+Note: Valid status values are: PENDING, IN_TRANSIT, DELIVERED, CANCELLED.
+      Make sure to change the ID in the URL (e.g. from /shipments/1/status 
+      to /shipments/<your_shipment_id>/status) to match your shipment!
+========================================================================
