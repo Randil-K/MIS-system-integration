@@ -95,8 +95,8 @@ export default function DashboardView({ user, setView }) {
     try {
       setManagerData(prev => ({ ...prev, loading: true, error: null }));
       const [ordersRes, invoicesRes] = await Promise.all([
-        axios.get('http://localhost:8082/api/orders'),
-        axios.get('http://localhost:8082/api/invoices')
+        axios.get('http://localhost:8080/api/orders'),
+        axios.get('http://localhost:8080/api/invoices')
       ]);
       setManagerData({
         orders: ordersRes.data,
@@ -118,9 +118,9 @@ export default function DashboardView({ user, setView }) {
     try {
       setSupplierData(prev => ({ ...prev, loading: true, error: null }));
       const [productsRes, inventoryRes, lowStockRes] = await Promise.all([
-        axios.get('http://localhost:8081/api/products'),
-        axios.get('http://localhost:8081/api/inventory'),
-        axios.get('http://localhost:8081/api/inventory/low-stock')
+        axios.get('http://localhost:8080/api/products'),
+        axios.get('http://localhost:8080/api/inventory'),
+        axios.get('http://localhost:8080/api/inventory/low-stock')
       ]);
       setSupplierData({
         products: productsRes.data,
@@ -185,7 +185,7 @@ export default function DashboardView({ user, setView }) {
   // Operations
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:8082/api/orders/${orderId}/status?status=${newStatus}`);
+      await axios.put(`http://localhost:8080/api/orders/${orderId}/status?status=${newStatus}`);
       fetchManagerData();
     } catch (err) {
       console.error('Failed to update order status', err);
@@ -202,7 +202,7 @@ export default function DashboardView({ user, setView }) {
     try {
       setRestockLoading(true);
       setRestockMessage(null);
-      await axios.post('http://localhost:8081/api/inventory/add', {
+      await axios.post('http://localhost:8080/api/inventory/add', {
         productId: Number(restockProductId),
         quantity: Number(restockQty),
         referenceDoc: restockRef.trim() || 'Supplier Console Restock'

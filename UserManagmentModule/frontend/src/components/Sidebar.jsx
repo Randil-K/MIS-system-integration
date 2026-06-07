@@ -3,7 +3,11 @@ import {
   LayoutDashboard,
   Users,
   User as UserIcon,
-  LogOut
+  LogOut,
+  ExternalLink,
+  ShoppingCart,
+  Package,
+  Truck
 } from 'lucide-react';
 
 export default function Sidebar({ view, setView, user, onLogout }) {
@@ -92,6 +96,45 @@ export default function Sidebar({ view, setView, user, onLogout }) {
               </button>
             );
           })}
+
+          <div style={{ height: '1px', background: 'var(--border-glass)', margin: '15px 0' }} />
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '600', paddingLeft: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Modules</p>
+
+          {(user.role === 'ADMIN' || user.role === 'MANAGER') && (
+            <a href="/orders/" style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '10px 16px', borderRadius: 'var(--radius-md)', color: 'var(--text-muted)', textDecoration: 'none', fontWeight: '600', fontSize: '0.85rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <ShoppingCart size={16} />
+                <span>Order & Billing</span>
+              </div>
+              <ExternalLink size={14} />
+            </a>
+          )}
+
+          {(user.role === 'ADMIN' || user.role === 'SUPPLIER') && (
+            <a href="/inventory/" style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '10px 16px', borderRadius: 'var(--radius-md)', color: 'var(--text-muted)', textDecoration: 'none', fontWeight: '600', fontSize: '0.85rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Package size={16} />
+                <span>Inventory</span>
+              </div>
+              <ExternalLink size={14} />
+            </a>
+          )}
+
+          {(user.role === 'ADMIN' || user.role === 'WAREHOUSE_STAFF') && (
+            <a href="/logistics/" style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '10px 16px', borderRadius: 'var(--radius-md)', color: 'var(--text-muted)', textDecoration: 'none', fontWeight: '600', fontSize: '0.85rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Truck size={16} />
+                <span>Logistics</span>
+              </div>
+              <ExternalLink size={14} />
+            </a>
+          )}
         </nav>
       </div>
 

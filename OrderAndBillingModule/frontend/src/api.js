@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8082/api', // adjusted to match Order & Billing Backend running on port 8082
+  baseURL: 'http://localhost:8080/api', // adjusted to match API gateway running on port 8080
   headers: {
     'Content-Type': 'application/json',
   },

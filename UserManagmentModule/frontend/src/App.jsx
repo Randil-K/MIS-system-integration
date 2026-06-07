@@ -14,7 +14,7 @@ import UserManagementView from './views/UserManagementView';
 // ==========================================
 // AXIOS BASE CONFIGURATION
 // ==========================================
-axios.defaults.baseURL = 'http://localhost:8085';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 export default function App() {
   // ==========================================

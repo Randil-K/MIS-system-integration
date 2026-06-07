@@ -1,0 +1,165 @@
+version: '3.8'
+
+services:
+  # Shared MySQL Database for all 4 modules
+  db:
+    image: mysql:8.0
+    container_name: shared-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      # init-all.sql will create logistics_db, order_and_Billing, inventory_db, user_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/init-all.sql:/docker-entrypoint-initdb.d/init-all.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - mis_network
+
+  # ==========================================
+  # 1. Logistics and Shipment Module
+  # ==========================================
+  logistics-backend:
+    build:
+      context: ./LogesticAndShipmentModule/backend
+      dockerfile: Dockerfile
+    container_name: logistics-backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/logistics_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      - db
+    networks:
+      - mis_network
+
+  logistics-frontend:
+    build:
+      context: ./LogesticAndShipmentModule/frontend
+      dockerfile: Dockerfile
+      args:
+        # Route to the shared API gateway
+        VITE_API_BASE_URL: http://localhost:8080/api
+    container_name: logistics-frontend
+    networks:
+      - mis_network
+
+  # ==========================================
+  # 2. Order and Billing Module
+  # ==========================================
+  order-backend:
+    build:
+      context: ./OrderAndBillingModule/backend
+      dockerfile: Dockerfile
+    container_name: order-backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/order_and_Billing?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      # Backend-to-backend internal call to Logistics module
+      - LOGISTICS_API_URL=http://logistics-backend:8080/api
+    depends_on:
+      - db
+    networks:
+      - mis_network
+
+  order-frontend:
+    build:
+      context: ./OrderAndBillingModule/frontend
+      dockerfile: Dockerfile
+    container_name: order-frontend
+    networks:
+      - mis_network
+
+  # ==========================================
+  # 3. Inventory Module
+  # ==========================================
+  inventory-backend:
+    build:
+      context: ./InventoryModuleNew/backend
+      dockerfile: Dockerfile
+    container_name: inventory-backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/inventory_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      - db
+    networks:
+      - mis_network
+
+  inventory-frontend:
+    build:
+      context: ./InventoryModuleNew/frontend
+      dockerfile: Dockerfile
+    container_name: inventory-frontend
+    networks:
+      - mis_network
+
+  # ==========================================
+  # 4. User Management Module
+  # ==========================================
+  user-backend:
+    build:
+      context: ./UserManagmentModule/backend
+      dockerfile: Dockerfile
+    container_name: user-backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/user_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      - db
+    networks:
+      - mis_network
+
+  user-frontend:
+    build:
+      context: ./UserManagmentModule/frontend
+      dockerfile: Dockerfile
+    container_name: user-frontend
+    networks:
+      - mis_network
+
+  # ==========================================
+  # API Gateway (Nginx on Port 8080)
+  # ==========================================
+  api-gateway:
+    image: nginx:alpine
+    container_name: api-gateway
+    volumes:
+      - ./nginx/api-gateway.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:8080"
+    depends_on:
+      - logistics-backend
+      - order-backend
+      - inventory-backend
+      - user-backend
+    networks:
+      - mis_network
+
+  # ==========================================
+  # Frontend Gateway (Nginx on Port 3000)
+  # ==========================================
+  frontend-gateway:
+    image: nginx:alpine
+    container_name: frontend-gateway
+    volumes:
+      - ./nginx/frontend-gateway.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "3000:3000"
+    depends_on:
+      - logistics-frontend
+      - order-frontend
+      - inventory-frontend
+      - user-frontend
+    networks:
+      - mis_network
+
+volumes:
+  mysql_data:
+
+networks:
+  mis_network:
+    driver: bridge

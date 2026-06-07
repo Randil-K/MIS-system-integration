@@ -63,8 +63,8 @@ function Dashboard() {
   const loadInventory = async () => {
     try {
       const [inventoryRes, productsRes] = await Promise.all([
-        axios.get('http://localhost:8081/api/inventory'),
-        axios.get('http://localhost:8081/api/products')
+        axios.get('http://localhost:8080/api/inventory'),
+        axios.get('http://localhost:8080/api/products')
       ]);
 
       setInventory(inventoryRes.data);
@@ -122,7 +122,7 @@ function Dashboard() {
       return;
     }
     try {
-      await axios.post('http://localhost:8081/api/products', {
+      await axios.post('http://localhost:8080/api/products', {
         name: newProduct.name,
         sku: newProduct.sku,
         category: normalizeCategory(newProduct.category),
@@ -146,7 +146,7 @@ function Dashboard() {
       return;
     }
     try {
-      const res = await axios.post('http://localhost:8081/api/inventory/add', {
+      const res = await axios.post('http://localhost:8080/api/inventory/add', {
         productId: parseInt(stockData.productId),
         quantity: parseInt(stockData.quantity),
         referenceDoc: stockData.referenceDoc || 'MANUAL-IN'
@@ -167,7 +167,7 @@ function Dashboard() {
       return;
     }
     try {
-      const res = await axios.post('http://localhost:8081/api/inventory/reduce', {
+      const res = await axios.post('http://localhost:8080/api/inventory/reduce', {
         productId: parseInt(stockData.productId),
         quantity: parseInt(stockData.quantity),
         referenceDoc: stockData.referenceDoc || 'MANUAL-OUT'
@@ -207,7 +207,7 @@ function Dashboard() {
       return;
     }
     try {
-      await axios.put(`http://localhost:8081/api/products/${editingProduct.productId}`, {
+      await axios.put(`http://localhost:8080/api/products/${editingProduct.productId}`, {
         name: editProductData.name,
         sku: editProductData.sku,
         category: normalizeCategory(editProductData.category),
@@ -228,7 +228,7 @@ function Dashboard() {
   // Delete product
   const confirmDeleteProduct = async () => {
     try {
-      await axios.delete(`http://localhost:8081/api/products/${deleteProductId}`);
+      await axios.delete(`http://localhost:8080/api/products/${deleteProductId}`);
       showMessage('🗑️ Product deleted successfully!', 'success');
       setShowDeleteConfirm(false);
       setDeleteProductId(null);

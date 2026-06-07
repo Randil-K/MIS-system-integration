@@ -5,7 +5,7 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/inventory">
       <Routes>
         <Route path="/" element={<Dashboard />} />
       </Routes>
