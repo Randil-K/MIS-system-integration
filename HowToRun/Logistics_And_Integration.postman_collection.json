@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "845c43d2-43fa-4e78-bc5a-e328574d75d6",
+		"name": "SCM Module Integration (Logistics & Orders)",
+		"description": "Postman API collection to test cross-module integration between the Logistics & Shipment Module (Port 8080) and the Order & Billing Module (Port 8082).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Order & Billing Module (Port 8082)",
+			"item": [
+				{
+					"name": "Place New Order (Triggers Auto-Shipment)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer\": {\n    \"id\": 1\n  },\n  \"items\": [\n    {\n      \"product\": {\n        \"id\": 1\n      },\n      \"quantity\": 2\n    }\n  ],\n  \"status\": \"PENDING\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "Creates a new order in the Order and Billing module. This automatically executes a REST call to the Logistics module on port 8080 to create a matching shipment."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "Gets all orders currently saved in the database."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/orders/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"orders",
+								"1"
+							]
+						},
+						"description": "Retrieves details of a specific order by its ID. (Use this to verify if the status changes to COMPLETED after a shipment delivery)."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order Status Directly",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/orders/1/status?status=SHIPPED",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"orders",
+								"1",
+								"status"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "SHIPPED",
+									"description": "New status: PENDING, SHIPPED, COMPLETED, CANCELLED"
+								}
+							]
+						},
+						"description": "Directly updates the status of an order (this is the endpoint the Logistics module calls internally)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Logistics & Shipment Module (Port 8080)",
+			"item": [
+				{
+					"name": "Get All Shipments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shipments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shipments"
+							]
+						},
+						"description": "Retrieves all shipments, including auto-created ones."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shipments By Order ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shipments/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shipments",
+								"order",
+								"1"
+							]
+						},
+						"description": "Fetches shipments associated with a specific Order ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Shipment Status (Triggers Sync back to Orders)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"DELIVERED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/shipments/1/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shipments",
+								"1",
+								"status"
+							]
+						},
+						"description": "Updates a shipment's status (e.g. to DELIVERED). This triggers a REST call in the backend to update the matching order status to COMPLETED on port 8082."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Shipment Manually",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"orderId\": 99,\n  \"customerId\": 2,\n  \"deliveryAddress\": \"No 45, Temple Road, Kandy\",\n  \"courierName\": \"FastTrack Logistics\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/shipments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shipments"
+							]
+						},
+						"description": "Allows manual registration of a shipment in the logistics database."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Logistics KPI Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/logistics/kpis",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"logistics",
+								"kpis"
+							]
+						},
+						"description": "Gets high-level KPIs for warehouses, total fleet capacity, and load utilization metrics."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Warehouses List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/logistics/warehouses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"logistics",
+								"warehouses"
+							]
+						},
+						"description": "Gets a list of all active warehouses with their capacity details."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Fleet Vehicles List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/logistics/vehicles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"logistics",
+								"vehicles"
+							]
+						},
+						"description": "Gets all delivery vehicles, their current status, driver, and routes."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [],
+	"variable": []
+}
